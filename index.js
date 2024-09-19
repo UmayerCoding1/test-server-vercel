@@ -19,6 +19,13 @@ app.get('/milon', (req,res)=> {
     })
 });
 
+app.get('/umayer', (req,res)=> {
+    res.send({
+        name: 'Umayer',
+        age: 19
+    })
+});
+
 
 
 app.listen(port, () => {
