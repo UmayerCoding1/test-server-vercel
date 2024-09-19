@@ -31,7 +31,7 @@ async function run() {
     // await client.connect();
 
      const mobileCollection = client.db('mobilesStoreDB').collection('mobiles');
-     app.get('/mobiles', async(req,res) => {
+     app.get('/allMobiles', async(req,res) => {
         const cursor = mobileCollection.find()
         const result = await cursor.toArray();
         res.send(result);
