@@ -25,6 +25,12 @@ app.get('/umayer', (req,res)=> {
         age: 19
     })
 });
+app.get('/akib', (req,res)=> {
+    res.send({
+        name: 'Akib',
+        age: 21
+    })
+});
 
 
 
