@@ -1,6 +1,8 @@
 const express = require('express');
 const cors = require('cors');
+const { MongoClient, ServerApiVersion } = require('mongodb');
 const app = express();
+require('dotenv').config()
 const port = process.env.PORT || 3000;
 
 // middleware
@@ -12,25 +14,40 @@ app.get('/', (req,res)=> {
 });
 
 
-app.get('/milon', (req,res)=> {
-    res.send({
-        name: 'milon',
-        age: 24
-    })
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.34gmw.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
+
+// Create a MongoClient with a MongoClientOptions object to set the Stable API version
+const client = new MongoClient(uri, {
+  serverApi: {
+    version: ServerApiVersion.v1,
+    strict: true,
+    deprecationErrors: true,
+  }
 });
 
-app.get('/umayer', (req,res)=> {
-    res.send({
-        name: 'Umayer',
-        age: 19
-    })
-});
-app.get('/akib', (req,res)=> {
-    res.send({
-        name: 'Akib',
-        age: 21
-    })
-});
+async function run() {
+  try {
+    // Connect the client to the server	(optional starting in v4.7)
+    // await client.connect();
+
+     const mobileCollection = client.db('mobilesStoreDB').collection('mobiles');
+     app.get('/mobiles', async(req,res) => {
+        const result = mobileCollection.find().toArray();
+        res.send(result);
+     })
+
+
+    // Send a ping to confirm a successful connection
+    // await client.db("admin").command({ ping: 1 });
+    console.log("Pinged your deployment. You successfully connected to MongoDB!");
+  } finally {
+    // Ensures that the client will close when you finish/error
+    // await client.close();
+  }
+}
+run().catch(console.dir);
+
+
 
 
 
